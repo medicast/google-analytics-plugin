@@ -37,6 +37,7 @@
 - (void) set: (CDVInvokedUrlCommand*)command;
 - (void) setAppOptOut: (CDVInvokedUrlCommand*)command;
 - (void) setDispatchInterval: (CDVInvokedUrlCommand*)command;
+- (void) setIDFAEnabled: (CDVInvokedUrlCommand*)command;
 - (void) setLogLevel: (CDVInvokedUrlCommand*)command;
 - (void) setTrackingId: (CDVInvokedUrlCommand*)command;
 

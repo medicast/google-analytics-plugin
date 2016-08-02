@@ -130,6 +130,86 @@ module.exports = {
     LogLevel: LogLevel,
 
     /**
+    * Closes the the tracker
+    *
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    close: function (success, error) {
+        argscheck.checkArgs('FF', 'analytics.close', arguments);
+        exec(success, error, 'GoogleAnalytics', 'close', []);
+    },
+
+    /**
+    * Immediately dispatches cached events
+    *
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    dispatch: function (params, success, error) {
+        argscheck.checkArgs('FF', 'analytics.dispatch', arguments);
+        exec(success, error, 'GoogleAnalytics', 'dispatch');
+    },
+
+    /**
+    * Enables IDFA collection
+    *
+    * @param {boolean} [enabled=true] - true to collect IDFA
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    enableAdvertisingIdCollection: function (enabled, success, error) {
+        argscheck.checkArgs('*FF', 'analytics.enableAdvertisingIdCollection', arguments);
+        exec(success, error, 'GoogleAnalytics', 'setIDFAEnabled', [enabled]);
+    },
+
+    /**
+    * Gets a field value. Returned as argument to success callback
+    *
+    * @param {string} key - the key
+    * @param {function} success - the success callback
+    * @param {function} [error] - the error callback
+    */
+    get: function (key, success, error) {
+        argscheck.checkArgs('sfF', 'analytics.get', arguments);
+        exec(success, error, 'GoogleAnalytics', 'get', [key]);
+    },
+
+    /**
+    * Gets the IDFA id
+    *
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    getAdvertisingId: function (success, error) {
+        argscheck.checkArgs('FF', 'analytics.getAdvertisingId', arguments);
+        exec(success, error, 'GoogleAnalytics', 'getAdvertisingId', []);
+    },
+
+    /**
+    * Get app-level opt out flag that will disable Google Analytics
+    *
+    * @param {function} [success] - the success callback (value is passed to callback)
+    */
+    getAppOptOut: function (success) {
+        argscheck.checkArgs('F', 'analytics.getAppOptOut', arguments);
+        exec(success, null, 'GoogleAnalytics', 'getAppOptOut', []);
+    },
+
+
+    /**
+    * Gets the boolean value of the Limit Ad Tracking setting
+    *
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    getLimitAdTracking: function (success, error) {
+        argscheck.checkArgs('FF', 'analytics.getLimitAdTracking', arguments);
+        exec(success, error, 'GoogleAnalytics', 'getLimitAdTracking', []);
+    },
+
+
+    /**
     * Sets the tracking id
     *
     * @param {string} trackingId - the trackingId
@@ -153,15 +233,6 @@ module.exports = {
         exec(success, error, 'GoogleAnalytics', 'setDispatchInterval', [seconds]);
     },
 
-    /**
-    * Get app-level opt out flag that will disable Google Analytics
-    *
-    * @param {function} [success] - the success callback (value is passed to callback)
-    */
-    getAppOptOut: function (success) {
-        argscheck.checkArgs('F', 'analytics.getAppOptOut', arguments);
-        exec(success, null, 'GoogleAnalytics', 'getAppOptOut', []);
-    },
 
     /**
     * Set app-level opt out flag that will disable Google Analytics
@@ -191,54 +262,6 @@ module.exports = {
         exec(success, error, 'GoogleAnalytics', 'setLogLevel', [logLevel]);
     },
 
-    /**
-    * Enables IDFA collection
-    *
-    * @param {boolean} [enabled=true] - true to collect IDFA
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    enableAdvertisingIdCollection: function (enabled, success, error) {
-        argscheck.checkArgs('*FF', 'analytics.enableAdvertisingIdCollection', arguments);
-        exec(success, error, 'GoogleAnalytics', 'setIDFAEnabled', [enabled]);
-    },
-
-
-    /**
-    * Gets the IDFA id
-    *
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    getAdvertisingId: function (success, error) {
-        argscheck.checkArgs('FF', 'analytics.getAdvertisingId', arguments);
-        exec(success, error, 'GoogleAnalytics', 'getAdvertisingId', []);
-    },
-
-
-    /**
-    * Gets the boolean value of the Limit Ad Tracking setting
-    *
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    getLimitAdTracking: function (success, error) {
-        argscheck.checkArgs('FF', 'analytics.getLimitAdTracking', arguments);
-        exec(success, error, 'GoogleAnalytics', 'getLimitAdTracking', []);
-    },
-
-
-    /**
-    * Gets a field value. Returned as argument to success callback
-    *
-    * @param {string} key - the key
-    * @param {function} success - the success callback
-    * @param {function} [error] - the error callback
-    */
-    get: function (key, success, error) {
-        argscheck.checkArgs('sfF', 'analytics.get', arguments);
-        exec(success, error, 'GoogleAnalytics', 'get', [key]);
-    },
 
     /**
     * Sets a field value
@@ -254,17 +277,6 @@ module.exports = {
     },
 
     /**
-    * Immediately dispatches cached events
-    *
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    dispatch: function (params, success, error) {
-        argscheck.checkArgs('FF', 'analytics.dispatch', arguments);
-        exec(success, error, 'GoogleAnalytics', 'dispatch');
-    },
-
-    /**
     * Generates a hit to be sent with the specified params and current field values
     *
     * @param {object} params - the params
@@ -274,17 +286,6 @@ module.exports = {
     send: function (params, success, error) {
         argscheck.checkArgs('oFF', 'analytics.send', arguments);
         exec(success, error, 'GoogleAnalytics', 'send', [params]);
-    },
-
-    /**
-    * Closes the the tracker
-    *
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    close: function (success, error) {
-        argscheck.checkArgs('FF', 'analytics.close', arguments);
-        exec(success, error, 'GoogleAnalytics', 'close', []);
     },
 
     /**

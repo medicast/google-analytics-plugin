@@ -113,8 +113,8 @@
         CDVPluginResult* pluginResult = nil;
 
         if (NSClassFromString(@"ASIdentifierManager")) {
-
-            BOOL limitAdTracking = [[NSClassFromString(@"ASIdentifierManager") sharedManager] isAdvertisingTrackingEnabled];
+            // negate this because limitAdTracking = !isTrackingEnabled
+            BOOL limitAdTracking = ![[NSClassFromString(@"ASIdentifierManager") sharedManager] isAdvertisingTrackingEnabled];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:limitAdTracking];
 
         } else {
@@ -207,6 +207,22 @@
     [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
+- (void) setIDFAEnabled: (CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* result = nil;
+    BOOL enabled = [[command.arguments objectAtIndex:0] boolValue];
+
+    if (enabled) {
+        [[GAI sharedInstance] allowIDFACollection:YES];
+    } else {
+        [[GAI sharedInstance] allowIDFACollection:NO];
+    }
+
+    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+}
+
 
 - (void) setLogLevel: (CDVInvokedUrlCommand*)command
 {
@@ -234,7 +250,6 @@
     }
 
     tracker = [[GAI sharedInstance] trackerWithTrackingId:trackingId];
-    tracker.allowIDFACollection = YES;
     result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
 
     [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
