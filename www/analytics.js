@@ -141,6 +141,32 @@ module.exports = {
     },
 
     /**
+    * Sets a custom dimension
+    *
+    * @param {number} id - the id
+    * @param {string} [value] - the value
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    customDimension: function (id, value, success, error) {
+        argscheck.checkArgs('n*FF', 'analytics.customDimension', arguments);
+        this.set('&cd' + id, value, success, error);
+    },
+
+    /**
+    * Sets a custom metric
+    *
+    * @param {number} id - the id
+    * @param {number} [value] - the value
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    customMetric: function (id, value, success, error) {
+        argscheck.checkArgs('n*FF', 'analytics.customMetric', arguments);
+        this.set('&cm' + id, value, success, error);
+    },
+
+    /**
     * Immediately dispatches cached events
     *
     * @param {function} [success] - the success callback
@@ -196,7 +222,6 @@ module.exports = {
         exec(success, null, 'GoogleAnalytics', 'getAppOptOut', []);
     },
 
-
     /**
     * Gets the boolean value of the Limit Ad Tracking setting
     *
@@ -206,74 +231,6 @@ module.exports = {
     getLimitAdTracking: function (success, error) {
         argscheck.checkArgs('FF', 'analytics.getLimitAdTracking', arguments);
         exec(success, error, 'GoogleAnalytics', 'getLimitAdTracking', []);
-    },
-
-
-    /**
-    * Sets the tracking id
-    *
-    * @param {string} trackingId - the trackingId
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    setTrackingId: function (trackingId, success, error) {
-        argscheck.checkArgs('sFF', 'analytics.setTrackingId', arguments);
-        exec(success, error, 'GoogleAnalytics', 'setTrackingId', [trackingId]);
-    },
-
-    /**
-    * Sets the dispatch Interval
-    *
-    * @param {number} seconds - the interval in seconds
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    setDispatchInterval: function (seconds, success, error) {
-        argscheck.checkArgs('nFF', 'analytics.setDispatchInterval', arguments);
-        exec(success, error, 'GoogleAnalytics', 'setDispatchInterval', [seconds]);
-    },
-
-
-    /**
-    * Set app-level opt out flag that will disable Google Analytics
-    *
-    * @param {boolean} [enabled=true] - true for opt out or false to opt in
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    setAppOptOut: function (enabled, success, error) {
-        argscheck.checkArgs('*FF', 'analytics.setAppOptOut', arguments);
-        exec(success, error, 'GoogleAnalytics', 'setAppOptOut', [enabled]);
-    },
-
-    /**
-    * Sets the log level
-    *
-    * @param {number} logLevel - the log level (refer to LogLevel for values)
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    setLogLevel: function (logLevel, success, error) {
-        argscheck.checkArgs('nFF', 'analytics.setLogLevel', arguments);
-        if (platform.id === 'ios') {
-            // the log levels for android are 0,1,2,3 and for ios are 4,3,2,1
-            logLevel = logLevelCount - logLevel;
-        }
-        exec(success, error, 'GoogleAnalytics', 'setLogLevel', [logLevel]);
-    },
-
-
-    /**
-    * Sets a field value
-    *
-    * @param {string} key - the key
-    * @param value - the value
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    set: function (key, value, success, error) {
-        argscheck.checkArgs('s*FF', 'analytics.set', arguments);
-        exec(success, error, 'GoogleAnalytics', 'set', [key, value]);
     },
 
     /**
@@ -289,29 +246,32 @@ module.exports = {
     },
 
     /**
-    * Sets a custom dimension
+    * Sends a screen view
     *
-    * @param {number} id - the id
-    * @param {string} [value] - the value
+    * @param {string} screenName - the screenName
     * @param {function} [success] - the success callback
     * @param {function} [error] - the error callback
     */
-    customDimension: function (id, value, success, error) {
-        argscheck.checkArgs('n*FF', 'analytics.customDimension', arguments);
-        this.set('&cd' + id, value, success, error);
+    sendAppView: function (screenName, success, error) {
+        this.sendAppViewWithParams(screenName, {}, success, error);
     },
 
     /**
-    * Sets a custom metric
+    * Sends a screen view with additional params
     *
-    * @param {number} id - the id
-    * @param {number} [value] - the value
+    * @param {string} screenName - the screenName
+    * @param {object} params - the params
     * @param {function} [success] - the success callback
     * @param {function} [error] - the error callback
     */
-    customMetric: function (id, value, success, error) {
-        argscheck.checkArgs('n*FF', 'analytics.customMetric', arguments);
-        this.set('&cm' + id, value, success, error);
+    sendAppViewWithParams: function (screenName, params, success, error) {
+        argscheck.checkArgs('soFF', 'analytics.sendAppView', arguments);
+        if (params === undefined || params === null) {
+            params = {};
+        }
+        params[Fields.HIT_TYPE]       = HitTypes.APP_VIEW;
+        params[Fields.SCREEN_NAME]    = screenName;
+        this.send(params, success, error);
     },
 
     /**
@@ -353,31 +313,19 @@ module.exports = {
     },
 
     /**
-    * Sends a screen view
+    * Sends an exception
     *
-    * @param {string} screenName - the screenName
+    * @param {string} description - the exception description
+    * @param {boolean} [fatal] - marks the exception as fatal
     * @param {function} [success] - the success callback
     * @param {function} [error] - the error callback
     */
-    sendAppView: function (screenName, success, error) {
-        this.sendAppViewWithParams(screenName, {}, success, error);
-    },
-
-    /**
-    * Sends a screen view with additional params
-    *
-    * @param {string} screenName - the screenName
-    * @param {object} params - the params
-    * @param {function} [success] - the success callback
-    * @param {function} [error] - the error callback
-    */
-    sendAppViewWithParams: function (screenName, params, success, error) {
-        argscheck.checkArgs('soFF', 'analytics.sendAppView', arguments);
-        if (params === undefined || params === null) {
-            params = {};
-        }
-        params[Fields.HIT_TYPE]       = HitTypes.APP_VIEW;
-        params[Fields.SCREEN_NAME]    = screenName;
+    sendException: function (description, fatal, success, error) {
+        argscheck.checkArgs('s*FF', 'analytics.sendException', arguments);
+        var params = {};
+        params[Fields.HIT_TYPE]        = HitTypes.EXCEPTION;
+        params[Fields.EX_DESCRIPTION]  = description;
+        params[Fields.EX_FATAL]        = fatal ? 1 : 0;
         this.send(params, success, error);
     },
 
@@ -403,20 +351,80 @@ module.exports = {
     },
 
     /**
-    * Sends an exception
+    * Sets a field value
     *
-    * @param {string} description - the exception description
-    * @param {boolean} [fatal] - marks the exception as fatal
+    * @param {string} key - the key
+    * @param value - the value
     * @param {function} [success] - the success callback
     * @param {function} [error] - the error callback
     */
-    sendException: function (description, fatal, success, error) {
-        argscheck.checkArgs('s*FF', 'analytics.sendException', arguments);
-        var params = {};
-        params[Fields.HIT_TYPE]        = HitTypes.EXCEPTION;
-        params[Fields.EX_DESCRIPTION]  = description;
-        params[Fields.EX_FATAL]        = fatal ? 1 : 0;
-        this.send(params, success, error);
+    set: function (key, value, success, error) {
+        argscheck.checkArgs('s*FF', 'analytics.set', arguments);
+        exec(success, error, 'GoogleAnalytics', 'set', [key, value]);
+    },
+
+    /**
+    * Set app-level opt out flag that will disable Google Analytics
+    *
+    * @param {boolean} [enabled=true] - true for opt out or false to opt in
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    setAppOptOut: function (enabled, success, error) {
+        argscheck.checkArgs('*FF', 'analytics.setAppOptOut', arguments);
+        exec(success, error, 'GoogleAnalytics', 'setAppOptOut', [enabled]);
+    },
+
+    /**
+    * Sets the dispatch Interval
+    *
+    * @param {number} seconds - the interval in seconds
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    setDispatchInterval: function (seconds, success, error) {
+        argscheck.checkArgs('nFF', 'analytics.setDispatchInterval', arguments);
+        exec(success, error, 'GoogleAnalytics', 'setDispatchInterval', [seconds]);
+    },
+
+    /**
+    * Sets the log level
+    *
+    * @param {number} logLevel - the log level (refer to LogLevel for values)
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    setLogLevel: function (logLevel, success, error) {
+        argscheck.checkArgs('nFF', 'analytics.setLogLevel', arguments);
+        if (platform.id === 'ios') {
+            // the log levels for android are 0,1,2,3 and for ios are 4,3,2,1
+            logLevel = logLevelCount - logLevel;
+        }
+        exec(success, error, 'GoogleAnalytics', 'setLogLevel', [logLevel]);
+    },
+
+    /**
+    * Sets the screen name
+    *
+    * @param {string} screenName - the name of the screen to set on the tracker
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    setScreen: function (screenName, success, error) {
+        argscheck.checkArgs('sFF', 'analytics.setScreen', arguments);
+        exec(success, error, 'GoogleAnalytics', 'setScreen', [screenName]);
+    },
+
+    /**
+    * Sets the tracking id
+    *
+    * @param {string} trackingId - the trackingId
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    setTrackingId: function (trackingId, success, error) {
+        argscheck.checkArgs('sFF', 'analytics.setTrackingId', arguments);
+        exec(success, error, 'GoogleAnalytics', 'setTrackingId', [trackingId]);
     },
 
     /**

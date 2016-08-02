@@ -207,18 +207,23 @@
     [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
+
 - (void) setIDFAEnabled: (CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
     BOOL enabled = [[command.arguments objectAtIndex:0] boolValue];
 
-    if (enabled) {
-        [[GAI sharedInstance] allowIDFACollection:YES];
+    if (!tracker) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"tracker not initialized"];
     } else {
-        [[GAI sharedInstance] allowIDFACollection:NO];
-    }
+        if (enabled) {
+            tracker.allowIDFACollection = YES;
+        } else {
+            tracker.allowIDFACollection = NO;
+        }
 
-    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
 
     [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
@@ -233,6 +238,21 @@
     [[[GAI sharedInstance] logger] setLogLevel:logLevel];
 
     result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+}
+
+
+- (void) setScreen: (CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* result = nil;
+    NSString* screenName = [command.arguments objectAtIndex:0];
+
+    if (!tracker) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"tracker not initialized"];
+    } else {
+        [tracker set:kGAIScreenName value:screenName];
+    }
 
     [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
