@@ -1,9 +1,9 @@
 {
-  "name": "com.cmackay.plugins.googleanalytics",
+  "name": "com.medicast.plugins.googleanalytics",
   "version": "0.1.22",
   "description": "Plugin for Google Analytics Native SDKs (Android, iOS)",
   "cordova": {
-    "id": "com.cmackay.plugins.googleanalytics",
+    "id": "com.medicast.plugins.googleanalytics",
     "platforms": [
       "ios",
       "android"
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cmackay/google-analytics-plugin.git"
+    "url": "git+https://github.com/medicast/google-analytics-plugin.git"
   },
   "keywords": [
     "cordova",
@@ -29,12 +29,12 @@
       "version": ">=3.0.0"
     }
   ],
-  "author": "Craig MacKay",
+  "author": "Medicast",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/cmackay/google-analytics-plugin/issues"
+    "url": "https://github.com/medicast/google-analytics-plugin/issues"
   },
-  "homepage": "https://github.com/cmackay/google-analytics-plugin#readme",
+  "homepage": "https://github.com/medicast/google-analytics-plugin#readme",
   "devDependencies": {
     "jsdoc-to-markdown": "^1.1.1",
     "rimraf": "^2.4.3"

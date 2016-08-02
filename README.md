@@ -43,7 +43,7 @@ For more information about measurement protocol refer to the following page:
 
 ## Installation
 ```
-cordova plugin add com.cmackay.plugins.googleanalytics
+cordova plugin add com.medicast.plugins.googleanalytics
 ```
 
 ## API
@@ -320,4 +320,3 @@ to true).
 | [opts] | <code>object</code> | the options { formatter: Function, fatal: Boolean } |
 | [success] | <code>function</code> | the success callback |
 | [error] | <code>function</code> | the error callback |
-

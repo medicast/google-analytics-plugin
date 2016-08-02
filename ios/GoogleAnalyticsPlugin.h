@@ -17,22 +17,28 @@
  under the License.
  */
 
-#import <Foundation/Foundation.h>
+#import <AdSupport/ASIdentifierManager.h>
 #import <Cordova/CDV.h>
+#import <Foundation/Foundation.h>
 #import "GAI.h"
 
 @interface GoogleAnalyticsPlugin : CDVPlugin {
-  id<GAITracker> tracker;
+    id<GAITracker> tracker;
 }
 
-- (void) setTrackingId: (CDVInvokedUrlCommand*)command;
+- (void) close: (CDVInvokedUrlCommand*)command;
+- (void) dispatch: (CDVInvokedUrlCommand*)command;
+- (void) get: (CDVInvokedUrlCommand*)command;
+- (void) getAdvertisingId: (CDVInvokedUrlCommand*)command;
+- (void) getAppOptOut: (CDVInvokedUrlCommand*)command;
+- (void) getLimitAdTracking: (CDVInvokedUrlCommand*)command;
+- (void) send: (CDVInvokedUrlCommand*)command;
+- (void) sendException: (CDVInvokedUrlCommand*)command;
+- (void) set: (CDVInvokedUrlCommand*)command;
+- (void) setAppOptOut: (CDVInvokedUrlCommand*)command;
 - (void) setDispatchInterval: (CDVInvokedUrlCommand*)command;
 - (void) setLogLevel: (CDVInvokedUrlCommand*)command;
-- (void) get: (CDVInvokedUrlCommand*)command;
-- (void) set: (CDVInvokedUrlCommand*)command;
-- (void) send: (CDVInvokedUrlCommand*)command;
-- (void) close: (CDVInvokedUrlCommand*)command;
-- (void) getAppOptOut: (CDVInvokedUrlCommand*)command;
-- (void) setAppOptOut: (CDVInvokedUrlCommand*)command;
+- (void) setTrackingId: (CDVInvokedUrlCommand*)command;
+
 
 @end

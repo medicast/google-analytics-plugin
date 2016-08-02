@@ -39,11 +39,11 @@ The send & set functions provide maximum flexibility and allow you to utilize al
 
 For more information about measurement protocol refer to the following page:
 
-[Measurement Protocol Developer Guide](https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide)
+[Measurement Protocol Developer Guide](https://developers.google.com/analytics/devguides/collection/protocol/v3/devguide)
 
 ## Installation
 ```
-cordova plugin add com.cmackay.plugins.googleanalytics
+cordova plugin add com.medicast.plugins.googleanalytics
 ```
 
 ## API

@@ -17,7 +17,7 @@
  under the License.
  */
 
-package com.cmackay.plugins.googleanalytics;
+package com.medicast.plugins.googleanalytics;
 
 import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;

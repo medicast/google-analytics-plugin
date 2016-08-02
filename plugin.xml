@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
-  id="com.cmackay.plugins.googleanalytics"
-  version="0.1.22">
+  id="com.medicast.plugins.googleanalytics"
+  version="0.2.0">
 
   <engines>
     <engine name="cordova" version=">=3.0.0" />
@@ -10,16 +10,16 @@
 
   <name>GoogleAnalytics</name>
   <description>Plugin for Google Analytics Native SDKs (Android, iOS)</description>
-  <author>Craig MacKay</author>
+  <author>Medicast</author>
   <license>Apache 2.0</license>
   <keywords>cordova,analytics</keywords>
-  <repo>https://github.com/cmackay/google-analytics-plugin.git</repo>
+  <repo>https://github.com/medicast/google-analytics-plugin.git</repo>
 
 
 
   <platform name="ios">
     <js-module src="www/analytics.js" name="GoogleAnalytics">
-      <clobbers target="navigator.analytics" />
+      <clobbers target="analytics" />
     </js-module>
     <config-file target="config.xml" parent="/*">
       <feature name="GoogleAnalytics">
@@ -49,11 +49,11 @@
 
   <platform name="android">
     <js-module src="www/analytics.js" name="GoogleAnalytics">
-      <clobbers target="navigator.analytics" />
+      <clobbers target="analytics" />
     </js-module>
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="GoogleAnalytics">
-        <param name="android-package" value="com.cmackay.plugins.googleanalytics.GoogleAnalyticsPlugin" />
+        <param name="android-package" value="com.medicast.plugins.googleanalytics.GoogleAnalyticsPlugin" />
       </feature>
     </config-file>
 
@@ -78,7 +78,7 @@
       </receiver>
     </config-file>
 
-    <source-file src="android/GoogleAnalyticsPlugin.java" target-dir="src/com/cmackay/plugins/googleanalytics" />
+    <source-file src="android/GoogleAnalyticsPlugin.java" target-dir="src/com/medicast/plugins/googleanalytics" />
 
     <framework src="com.google.android.gms:play-services-analytics:+" />
 
