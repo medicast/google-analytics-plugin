@@ -90,6 +90,7 @@ var HitTypes = {
     EVENT:        'event',
     EXCEPTION:    'exception',
     ITEM:         'item',
+    SCREEN_VIEW:  'screenview',
     SOCIAL:       'social',
     TIMING:       'timing',
     TRANSACTION:  'transaction'
@@ -326,6 +327,21 @@ module.exports = {
         params[Fields.HIT_TYPE]        = HitTypes.EXCEPTION;
         params[Fields.EX_DESCRIPTION]  = description;
         params[Fields.EX_FATAL]        = fatal ? 1 : 0;
+        this.send(params, success, error);
+    },
+
+    /**
+    * Sends a screen view
+    *
+    * @param {string} description - the screen name
+    * @param {function} [success] - the success callback
+    * @param {function} [error] - the error callback
+    */
+    sendScreenView: function (description, success, error) {
+        argscheck.checkArgs('sFF', 'analytics.sendScreenView', arguments);
+        var params = {};
+        params[Fields.HIT_TYPE]        = HitTypes.SCREEN_VIEW;
+        params[Fields.DESCRIPTION]     = description;
         this.send(params, success, error);
     },
 
