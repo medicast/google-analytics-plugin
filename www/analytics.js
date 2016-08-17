@@ -175,7 +175,7 @@ module.exports = {
     */
     dispatch: function (success, error) {
         argscheck.checkArgs('FF', 'analytics.dispatch', arguments);
-        exec(success, error, 'GoogleAnalytics', 'dispatch');
+        exec(success, error, 'GoogleAnalytics', 'dispatch', []);
     },
 
     /**
